@@ -11,6 +11,10 @@ function App() {
   const [country, setCountry] = useState("worldwide");
   const [countryInfo, setCountryInfo] = useState({});
   const [countries, setCountries] = useState([]);
+  const [mapCountries, setMapCountries] = useState([]);
+  const [casesType, setCasesType] = useState("cases");
+  const [mapCenter, setMapCenter] = useState({ lat: 34.80746, lng: -40.4796 });
+  const [mapZoom, setMapZoom] = useState(3);
 
   const sortData = (data) => {
     let sortedData = [...data];
@@ -28,7 +32,7 @@ function App() {
     fetch("https://disease.sh/v3/covid-19/all")
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
+        // console.log(data);
         setCountryInfo(data);
       });
   }, []);
@@ -42,9 +46,10 @@ function App() {
             name: country.country,
             value: country.countryInfo.iso2,
           }));
+          console.log(data);
           let sortedData = sortData(data);
           setCountries(countries);
-          // setMapCountries(data);
+          setMapCountries(data);
           // setTableData(sortedData);
         });
     };
@@ -64,8 +69,8 @@ function App() {
       .then((data) => {
         setCountry(countryCode);
         setCountryInfo(data);
-        // setMapCenter([data.countryInfo.lat, data.countryInfo.long]);
-        // setMapZoom(4);
+        setMapCenter([data.countryInfo.lat, data.countryInfo.long]);
+        setMapZoom(4);
       });
   };
 
@@ -88,8 +93,8 @@ function App() {
           </FormControl>
         </div>
       </Container>
-      <Cards total={numeral(countryInfo.cases).format("0.0a")} active={numeral(countryInfo.active).format("0.0a")} recovered={numeral(countryInfo.recovered).format("0.0a")} deaths={numeral(countryInfo.deaths).format("0.0a")} />
-      <Lists />
+      <Cards total={countryInfo.cases} active={countryInfo.active} recovered={countryInfo.recovered} deaths={countryInfo.deaths} />
+      <Lists mapCountries={mapCountries} casesType={casesType} mapCenter={mapCenter} mapZoom={mapZoom} />
     </div>
   );
 }

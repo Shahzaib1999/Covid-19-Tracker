@@ -1,5 +1,6 @@
 import React from 'react';
 import { Container, Paper, Grid, Box } from '@material-ui/core';
+import CountUp from 'react-countup';
 
 import { useStyles } from './Styles';
 
@@ -18,7 +19,14 @@ export const Cards = (props) => {
                 Total
               </Box>
               <Box className={classes.totalPaperText} fontSize={30}>
-                {props.total}
+              {props.total &&
+                <CountUp
+                  start={0}
+                  end={props.total}
+                  duration={2.4}
+                  separator=","
+                />
+              }
               </Box>
             </Paper>
           </Grid>
@@ -31,7 +39,14 @@ export const Cards = (props) => {
                 Total
               </Box>
               <Box className={classes.activePaperText} fontSize={30}>
-                {props.active}
+                {props.active &&
+                <CountUp
+                  start={0}
+                  end={props.active}
+                  duration={2.4}
+                  separator=","
+                />
+              }
               </Box>
             </Paper>
           </Grid>
@@ -44,7 +59,14 @@ export const Cards = (props) => {
                 Total
               </Box>
               <Box className={classes.recoveredPaperText} fontSize={30}>
-                {props.recovered}
+                {props.recovered &&
+                <CountUp
+                  start={0}
+                  end={props.recovered}
+                  duration={2.4}
+                  separator=","
+                />
+              }
               </Box>
             </Paper>
           </Grid>
@@ -57,7 +79,14 @@ export const Cards = (props) => {
                 Total
               </Box>
               <Box className={classes.deathsPaperText} fontSize={30}>
-                {props.deaths}
+                {props.deaths &&
+                <CountUp
+                  start={0}
+                  end={props.deaths}
+                  duration={2.4}
+                  separator=","
+                />
+              }
               </Box>
             </Paper>
           </Grid>
