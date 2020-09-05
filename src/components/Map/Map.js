@@ -8,15 +8,21 @@ import "./Map.css";
 function Map({ countries, casesType, center, zoom }) {
   const casesTypeColors = {
     cases: {
-      hex: "#CC1034",
-      rgb: "rgb(204, 16, 52)",
-      half_op: "rgba(204, 16, 52, 0.5)",
+      hex: "#A3ABAC",
+      rgb: "#A3ABAC",
+      half_op: "#A3ABAC",
+      multiplier: 800,
+    },
+    active: {
+      hex: "#F4C10A",
+      rgb: "#B99202",
+      half_op: "#B99202",
       multiplier: 800,
     },
     recovered: {
-      hex: "#7dd71d",
-      rgb: "rgb(125, 215, 29)",
-      half_op: "rgba(125, 215, 29, 0.5)",
+      hex: "rgb(87, 203, 114,.7)",
+      rgb: "rgb(87, 203, 114,.7)",
+      half_op: "#028120",
       multiplier: 1200,
     },
     deaths: {
@@ -28,8 +34,9 @@ function Map({ countries, casesType, center, zoom }) {
   };
 
   const showDataOnMap = (data, casesType = "cases") =>
-    data && data.map((country) => (
+    data && data.map((country, ind) => (
       <Circle
+        key={ind}
         center={[country.countryInfo.lat, country.countryInfo.long]}
         color={casesTypeColors[casesType].hex}
         fillColor={casesTypeColors[casesType].hex}
@@ -63,7 +70,7 @@ function Map({ countries, casesType, center, zoom }) {
       <LeafletMap center={center} zoom={zoom}>
         <TileLayer
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-          attribution='&copy; <a href="">Shahzaib</a> contributors'
+          attribution='&copy; <a href="https://github.com/shahzaib1999">Shahzaib</a>'
         />
         {showDataOnMap(countries, casesType)}
       </LeafletMap>

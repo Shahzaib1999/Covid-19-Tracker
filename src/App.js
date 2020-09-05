@@ -1,11 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import logo from './logo.svg';
 import './App.css';
-import { Header } from './components/Header/Header';
 import { Cards } from './components/Cards/Cards';
 import { Lists } from './components/List/List';
 import { Container, MenuItem, FormControl, Select } from '@material-ui/core';
-import numeral from "numeral";
 
 function App() {
   const [country, setCountry] = useState("worldwide");
@@ -13,9 +10,9 @@ function App() {
   const [countries, setCountries] = useState([]);
   const [mapCountries, setMapCountries] = useState([]);
   const [casesType, setCasesType] = useState("cases");
-  const [mapCenter, setMapCenter] = useState({ lat: 34.80746, lng: -40.4796 });
+  const [mapCenter, setMapCenter] = useState({ lat: 24.8539615, lng: 66.9868871 });
   const [mapZoom, setMapZoom] = useState(3);
-
+  // console.log(casesType);
   const sortData = (data) => {
     let sortedData = [...data];
     sortedData.sort((a, b) => {
@@ -46,11 +43,9 @@ function App() {
             name: country.country,
             value: country.countryInfo.iso2,
           }));
-          console.log(data);
-          let sortedData = sortData(data);
+          // console.log(data);
           setCountries(countries);
           setMapCountries(data);
-          // setTableData(sortedData);
         });
     };
 
@@ -69,7 +64,7 @@ function App() {
       .then((data) => {
         setCountry(countryCode);
         setCountryInfo(data);
-        setMapCenter([data.countryInfo.lat, data.countryInfo.long]);
+        countryCode === "worldwide" ? setMapCenter({ lat: 24.8539615, lng: 66.9868871 }) : setMapCenter([data.countryInfo.lat, data.countryInfo.long]);
         setMapZoom(4);
       });
   };
@@ -93,7 +88,7 @@ function App() {
           </FormControl>
         </div>
       </Container>
-      <Cards total={countryInfo.cases} active={countryInfo.active} recovered={countryInfo.recovered} deaths={countryInfo.deaths} />
+      <Cards changeCase={setCasesType} total={countryInfo.cases} active={countryInfo.active} recovered={countryInfo.recovered} deaths={countryInfo.deaths} />
       <Lists mapCountries={mapCountries} casesType={casesType} mapCenter={mapCenter} mapZoom={mapZoom} />
     </div>
   );
