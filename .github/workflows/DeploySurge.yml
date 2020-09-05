@@ -29,8 +29,8 @@ jobs:
           node-versio: 12 
     
       # Installs React dependencies
-      - name: Installs react, react-dom, react-scripts
-        run: npm install react react-dom react-scripts 
+      - name: Install pakages
+        run: npm install
 
       # Builds the App
       - name: Build React App
