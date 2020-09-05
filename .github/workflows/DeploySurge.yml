@@ -40,7 +40,7 @@ jobs:
 
       # Installs Surge
       - name: Install surge
-        run: npm install -g surge
+        run: sudo npm install -g surge
 
       # Deploys to Surge
       - name: Deploy to surge
