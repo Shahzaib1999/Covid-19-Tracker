@@ -1,24 +1,17 @@
-.center{
-  /* text-align: center; */
-}
-
 .headerWrapper{
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+  padding-top: 30px;
+  padding-bottom: 30px;
 }
 
 .header{
-  /* text-align: center; */
-  /* width: 25%; */
-  /* background: linear-gradient(to right, #d83963, #e85560); */
-  /* text-align: center; */
   margin: 0;
   font-size: 45px;
   font-weight: bold;
-  padding-top: 20px;
-  /* color: white; */
+  padding-top: 10px;
 }
 
 /* width */
@@ -44,8 +37,4 @@
 /* Add transaction */
 .addTransactionWrapper{
   margin: 0 50px 15px 50px;
-}
-
-.MuiPaper-root{
-  width: auto !important;
 }

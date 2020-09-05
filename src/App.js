@@ -1,18 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
+import { Header } from './components/Header/Header';
 import { Cards } from './components/Cards/Cards';
 import { Lists } from './components/List/List';
-import { Container, MenuItem, FormControl, Select } from '@material-ui/core';
+import { Chart } from './components/Chart/Chart';
 
 function App() {
   const [country, setCountry] = useState("worldwide");
   const [countryInfo, setCountryInfo] = useState({});
   const [countries, setCountries] = useState([]);
   const [mapCountries, setMapCountries] = useState([]);
+  const [chartCountries, setChartCountries] = useState([]);
   const [casesType, setCasesType] = useState("cases");
   const [mapCenter, setMapCenter] = useState({ lat: 24.8539615, lng: 66.9868871 });
   const [mapZoom, setMapZoom] = useState(3);
-  // console.log(casesType);
+  const [listData, setListData] = useState([]);
+
   const sortData = (data) => {
     let sortedData = [...data];
     sortedData.sort((a, b) => {
@@ -29,7 +32,6 @@ function App() {
     fetch("https://disease.sh/v3/covid-19/all")
       .then((response) => response.json())
       .then((data) => {
-        // console.log(data);
         setCountryInfo(data);
       });
   }, []);
@@ -43,13 +45,27 @@ function App() {
             name: country.country,
             value: country.countryInfo.iso2,
           }));
-          // console.log(data);
+          let sortedData = sortData(data);
           setCountries(countries);
           setMapCountries(data);
+          setListData(sortedData);
         });
     };
 
     getCountriesData();
+  }, []);
+
+  useEffect(() => {
+    fetch("https://covid19.mathdro.id/api/daily")
+      .then((response) => response.json())
+      .then((data) => {
+        const modifiedData = data.map((dailyData) => ({
+          confirmed: dailyData.confirmed.total,
+          deaths: dailyData.deaths.total,
+          reportDate: dailyData.reportDate
+        }));
+        setChartCountries(modifiedData);
+      });
   }, []);
 
   const onCountryChangeHandler = async (e) => {
@@ -70,26 +86,11 @@ function App() {
   };
 
   return (
-    <div style={{ background: 'rgb(214, 224, 234,.6)', height: window.innerHeight }}>
-      <Container>
-        <div className="headerWrapper">
-          <p className="header">Covid-19</p>
-          <FormControl className="app__dropdown">
-            <Select
-              variant="outlined"
-              value={country}
-              onChange={onCountryChangeHandler}
-            >
-              <MenuItem value="worldwide">Worldwide</MenuItem>
-              {countries.map((country, ind) => (
-                <MenuItem key={ind} value={country.value}>{country.name}</MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-        </div>
-      </Container>
+    <div style={{ background: 'rgb(214, 224, 234,.6)', paddingBottom: 10 }}>
+      <Header country={country} countries={countries} onChange={onCountryChangeHandler} />
       <Cards changeCase={setCasesType} total={countryInfo.cases} active={countryInfo.active} recovered={countryInfo.recovered} deaths={countryInfo.deaths} />
-      <Lists mapCountries={mapCountries} casesType={casesType} mapCenter={mapCenter} mapZoom={mapZoom} />
+      <Lists listData={listData} mapCountries={mapCountries} casesType={casesType} mapCenter={mapCenter} mapZoom={mapZoom} />
+      <Chart data={chartCountries} />
     </div>
   );
 }

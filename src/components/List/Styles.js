@@ -5,9 +5,12 @@ export const useStyles = makeStyles((theme) => ({
     width: '100%',
     maxWidth: 360,
     // maxHeight: window.innerHeight * .55,
-    height: window.innerHeight * .55,
-    maxHeight: window.innerHeight * .55,
+    // height: window.innerHeight * .55,
+    maxHeight: 420,
     overflowY: 'scroll',
     paddingLeft: 10
+  },
+  listWrapper: {
+    backgroundColor: '#F5F6FA'
   },
 }));
